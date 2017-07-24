@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>CRISOLO, KENTH REMON - MCS613</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen">
+		<link rel="stylesheet" href="css/converter.css" type="text/css" media="screen">
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js" ></script> 
+		<script src="js/bootstrap.min.js"></script> 
+		<script src="js/converter.js"></script> 
+	</head>
+	<body>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:800|Poppins:700" rel="stylesheet">
+
+	<div class="converter-wrapper">
+	  <h1>NUMBER SYSTEM CONVERTER</h1>
+
+	  <div class="converter-side-a">
+		<form name="form_A" onSubmit="return false">
+		  <input type="text" class="numbersonly" name="unit_input" maxlength="20" value="0" onKeyUp="CalculateUnit(document.form_A, document.form_B)">
+		  <span>
+		  	BIN
+		  </span>
+		</form>
+	  </div> <!-- /converter-side-a -->
+	  
+	 <div class="converter-equals">
+	   <p></p>
+	 </div> <!-- /converter-side-a -->
+
+	  <div class="converter-side-b">
+		<form name="form_B" onSubmit="return false">
+		  <input type="text" class="numbersonly" name="unit_input" maxlength="20" value="0" onkeyup="CalculateUnit(document.form_B, document.form_A)">
+		  <span>
+			HEX
+		  </span>
+		</form>
+	  </div> <!-- /converter-side-b -->
+	  <div class="converter-side-a">
+		<form name="form_C" onSubmit="return false">
+		  <input type="text" class="numbersonly" name="unit_input" maxlength="20" value="0" onKeyUp="CalculateUnit(document.form_A, document.form_B)">
+		  <span>
+			OCT
+		  </span>
+		</form>
+	  </div> <!-- /converter-side-c -->
+	  
+	 <div class="converter-equals">
+	   <p></p>
+	 </div> <!-- /converter-side-d -->
+
+	  <div class="converter-side-b">
+		<form name="form_D" onSubmit="return false">
+		  <input type="text" class="numbersonly" name="unit_input" maxlength="20" value="0" onkeyup="CalculateUnit(document.form_B, document.form_A)">
+		  <span>
+			DEC
+		  </span>
+		</form>
+	  </div> <!-- /converter-side-b -->
+
+	  <div class="converter-side-a">
+		<form name="form_E" onSubmit="return false">
+		  <input type="text" class="numbersonly" name="unit_input" maxlength="20" value="0" onkeyup="CalculateUnit(document.form_B, document.form_A)">
+		  <span>
+			IEEE 754 BIN
+		  </span>
+		</form>
+	  </div> <!-- /converter-side-b -->
+	 <div class="converter-equals">
+	   <p></p>
+	 </div> <!-- /converter-side-d -->
+	  <div class="converter-side-b">
+		<form name="form_F" onSubmit="return false">
+		  <input type="text" class="numbersonly" name="unit_input" maxlength="20" value="0" onkeyup="CalculateUnit(document.form_B, document.form_A)">
+		  <span>
+			IEEE 754 HEX
+		  </span>
+		</form>
+	  </div> <!-- /converter-side-b -->
+	</div><!-- /converter-wrapper -->
+	</body>
+</html>
+
