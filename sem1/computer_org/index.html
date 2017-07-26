@@ -1,8 +1,12 @@
+<!-- ---------------------------- -->
+<!-- author: Kenth Remon Crisolo -->
+<!-- email: kenth.crisolo@gmail.com -->
+<!-- ---------------------------- -->
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<title>CRISOLO, KENTH REMON</title>
+		<title>CRISOLO, KENTH REMON - MCS613 2017 1ST SEM</title>
 		<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen">
 		<link rel="stylesheet" href="css/converter.css" type="text/css" media="screen">
 		<script type="text/javascript" src="js/jquery-1.11.0.min.js" ></script> 
@@ -16,7 +20,7 @@
 
 	  <div class="converter-side-a">
 		<form name="form_bin" onSubmit="return false">
-		  <input type="text" class="bin_input" id="bin_input" maxlength="32" value="0" >
+		  <input type="text" class="bin_input" id="bin_input" placeholder="0" >
 		  <span>
 		  	BIN
 		  </span>
@@ -29,7 +33,7 @@
 
 	  <div class="converter-side-b">
 		<form name="form_hex" onSubmit="return false">
-		  <input type="text" class="hex_input" id="hex_input" maxlength="20" value="0">
+		  <input type="text" class="hex_input" id="hex_input" placeholder="0">
 		  <span>
 			HEX
 		  </span>
@@ -37,7 +41,7 @@
 	  </div>
 	  <div class="converter-side-a">
 		<form name="form_oct" onSubmit="return false">
-		  <input type="text" class="oct_input" maxlength="20" value="0">
+		  <input type="text" class="oct_input" placeholder="0">
 		  <span>
 			OCT
 		  </span>
@@ -50,7 +54,7 @@
 
 	  <div class="converter-side-b">
 		<form name="form_dec" onSubmit="return false">
-		  <input type="text" class="dec_input" maxlength="32" value="0">
+		  <input type="text" class="dec_input" placeholder="0">
 		  <span>
 			DEC
 		  </span>
@@ -59,7 +63,7 @@
 
 	  <div class="converter-side-a">
 		<form name="form_i3e_bin" onSubmit="return false">
-		  <input type="text" class="bin_input" id="i3e_bin_input" maxlength="32" value="0">
+		  <input type="text" class="bin_input" id="i3e_bin_input" maxlength="32" placeholder="0">
 		  <span>
 			IEEE 754 BIN
 		  </span>
@@ -70,7 +74,7 @@
 	 </div>
 	  <div class="converter-side-b">
 		<form name="form_i3e_hex" onSubmit="return false">
-		  <input type="text" class="hex_input" id="i3e_hex_input" maxlength="8" value="0" >
+		  <input type="text" class="hex_input" id="i3e_hex_input" maxlength="8" placeholder="0" >
 		  <span>
 			IEEE 754 HEX
 		  </span>
