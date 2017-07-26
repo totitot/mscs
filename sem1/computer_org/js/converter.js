@@ -12,8 +12,10 @@ $(document).ready(function(){
 
 $(".bin_input").keyup(function(){
 	var $th = $(this);
-	$th.val($th.val().replace(/[^0-1\.]/g,''));
+	$th.val($th.val().replace(/[^0-1\.\-]/g,''));
 	$th.val($th.val().replace(/(\..*)\./g, '$1'));
+	$th.val($th.val().replace(/(\-.*)\-/g, '$1'));
+	$th.val($th.val().replace(/([0-1]+)\-.*/g, '$1'));
 });
 
 $("#bin_input").keyup(function(){
@@ -26,8 +28,10 @@ $("#bin_input").keyup(function(){
 
 $(".hex_input").keyup(function(){
 	var $th = $(this);
-	$th.val($th.val().replace(/[^0-9a-fA-F\.]/g,''));
+	$th.val($th.val().replace(/[^0-9a-fA-F\.\-]/g,''));
 	$th.val($th.val().replace(/(\..*)\./g, '$1'));
+	$th.val($th.val().replace(/(\-.*)\-/g, '$1'));
+	$th.val($th.val().replace(/([0-9a-fA-F]+)\-.*/g, '$1'));
 });
 
 $("#hex_input").keyup(function(){
@@ -40,8 +44,11 @@ $("#hex_input").keyup(function(){
 
 $(".oct_input").keyup(function(){
 	var $th = $(this);
-	$th.val($th.val().replace(/[^0-7\.]/g,''));
+	$th.val($th.val().replace(/[^0-7\.\-]/g,''));
 	$th.val($th.val().replace(/(\..*)\./g, '$1'));
+	$th.val($th.val().replace(/(\-.*)\-/g, '$1'));
+	$th.val($th.val().replace(/([0-7]+)\-.*/g, '$1'));
+
 	bin = octToBin($th.val());
 	$("#bin_input").val(bin);
 	$("#hex_input").val(binToHex(bin));
@@ -50,8 +57,10 @@ $(".oct_input").keyup(function(){
 
 $(".dec_input").keyup(function(){
 	var $th = $(this);
-	$th.val($th.val().replace(/[^0-9]/g,''));
+	$th.val($th.val().replace(/[^0-9\.\-]/g,''));
 	$th.val($th.val().replace(/(\..*)\./g, '$1'));
+	$th.val($th.val().replace(/(\-.*)\-/g, '$1'));
+	$th.val($th.val().replace(/([0-9]+)\-.*/g, '$1'));
 	bin = decToBin($th.val());
 	$("#bin_input").val(bin);
 	$("#hex_input").val(binToHex(bin));
@@ -61,37 +70,50 @@ $(".dec_input").keyup(function(){
 
 function binToDec(str){
 	var ret = 0;
-	if( str.length > 1 ){
-		var period = str.indexOf(".");
-		if( period == -1 ){
-			for( i = 0; i < str.length; i++ ){
-				ret+= parseInt(str.charAt(i),10)*Math.pow(2,str.length-1-i);
-			}
-		}
-		else{
-			var intstr = str.slice(0,period);
-			var fracstr = str.slice(period+1);
-			ret = binToDec(intstr) + "." + fracBinToDec(fracstr);
+	var sign = "";
+	if( str.indexOf("-") != -1 ){
+		sign = "-";
+		str = str.slice(1);
+	}
+
+	var period = str.indexOf(".");
+	if( period == -1 ){
+		for( i = 0; i < str.length; i++ ){
+			ret+= parseInt(str.charAt(i),10)*Math.pow(2,str.length-1-i);
 		}
 	}
 	else{
-		ret = str;
+		var intstr = str.slice(0,period);
+		var fracstr = str.slice(period+1);
+		ret = binToDec(intstr) + "." + fracBinToDec(fracstr);
 	}
+	ret = sign + ret;
 	return ret;
 }
 
 function fracBinToDec(str){
 	var ret = 0;
-	for( i = 0; i < str.length; i++ ){
-		ret += parseInt(str.charAt(i),10)*Math.pow(2, -(i+1));
+	if( Number(str) == 0 ){
+		ret = str;
 	}
-	ret = String(ret);
-	ret = ret.slice(2);
+	else{
+		for( i = 0; i < str.length; i++ ){
+			ret += parseInt(str.charAt(i),10)*Math.pow(2, -(i+1));
+		}
+		ret = String(ret);
+		ret = ret.slice(ret.indexOf(".")+1);
+		console.log(ret);
+	}
 	return ret;
 }
 
 function binToHex(str){
 	var ret = "";
+	var sign = "";
+	if( str.indexOf("-") != -1 ){
+		sign = "-";
+		str = str.slice(1);
+	}
 
 	var period = str.indexOf(".");
 	if( period == -1 ){
@@ -126,6 +148,8 @@ function binToHex(str){
 		var fracstr = str.slice(period+1);
 		ret = binToHex(intstr)+"."+fracBinToHex(fracstr);
 	}
+
+	ret = sign + ret;
 	
 	return ret;
 }
@@ -139,7 +163,6 @@ function fracBinToHex(str){
 		}
 	}
 
-	
 	for(i = 0; i < (str.length/4);i++ ){
 		dum = 0;
 		for( j = 0; j < 4; j++ ){
@@ -163,6 +186,11 @@ function fracBinToHex(str){
 
 function binToOct(str){
 	var ret = "";
+	var sign = "";
+	if( str.indexOf("-") != -1 ){
+		sign = "-";
+		str = str.slice(1);
+	}
 
 	var period = str.indexOf(".");
 	if( period == -1 ){
@@ -172,7 +200,6 @@ function binToOct(str){
 				str = "0".concat(str);
 			}
 		}
-
 		
 		for(i = 0; i < (str.length/3);i++ ){
 			dum = 0;
@@ -183,9 +210,32 @@ function binToOct(str){
 		}
 	}
 	else{
+		var intstr = str.slice(0,period);
+		var fracstr = str.slice(period+1);
+		ret = binToOct(intstr)+"."+fracBinToOct(fracstr);
 	}
+
+	ret = sign + ret;
 	
 	return ret;
+}
+
+function fracBinToOct(str){
+	var ret = "";
+	if( str.length % 3 != 0 ){
+		padlen = (3-(str.length%3));
+		for( i = 0; i < padlen; i++ ){
+			str = str.concat("0");
+		}
+	}
+	
+	for(i = 0; i < (str.length/3);i++ ){
+		dum = 0;
+		for( j = 0; j < 3; j++ ){
+			dum += parseInt(str.charAt(i*3+j),10)*Math.pow(2,2-j);
+		}
+		ret = ret.concat(dum);
+	}
 }
 
 function hexToBin(str){
