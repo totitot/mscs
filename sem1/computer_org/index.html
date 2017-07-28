@@ -1,6 +1,6 @@
 <!-- ---------------------------- -->
 <!-- author: Kenth Remon Crisolo -->
-<!-- email: kenth.crisolo@gmail.com -->
+<!-- email: kcrisolo07@gmail.com -->
 <!-- ---------------------------- -->
 <!DOCTYPE html>
 <html>
@@ -17,13 +17,6 @@
 
 	<div class="converter-wrapper">
 	  <h1>NUMBER SYSTEM CONVERTER</h1>
-
-	  <!-- <form name="bit_length"> -->
-		<!-- <span> -->
-		<!--   <select class="select_bit_length" name="the_menu" size=1> -->
-		<!--   </select> -->
-		<!-- </span> -->
-	  <!-- </form> -->
 
 	  <div class="converter-side-a">
 		<form name="form_dec" onSubmit="return false">
@@ -43,10 +36,6 @@
 		</form>
 	  </div>
 	  
-	 <!-- <div class="center&#45;separator"> -->
-	 <!--   <p></p> -->
-	 <!-- </div> -->
-
 	  <div class="converter-side-a">
 		<form name="form_hex" onSubmit="return false">
 		  <input type="text" class="hex_input" id="hex_input" placeholder="0" size=1>
@@ -65,26 +54,18 @@
 		</form>
 	  </div>
 	  
-	 <!-- <div class="center&#45;separator"> -->
-	 <!--   <p></p> -->
-	 <!-- </div> -->
-
 	  <div class="converter-side-a">
 		<form name="form_i3e_bin" onSubmit="return false">
-		  <input type="text" class="bin_input" id="i3e_bin_input" maxlength="32" placeholder="0">
+		  <input type="text" class="bin_input" id="i3e_bin_input" maxlength="32" placeholder="0" readonly="readonly">
 		  <span>
 			IEEE 754 BIN
 		  </span>
 		</form>
 	  </div>
 
-	 <!-- <div class="center&#45;separator"> -->
-	 <!--   <p></p> -->
-	 <!-- </div> -->
-
 	  <div class="converter-side-a">
 		<form name="form_i3e_hex" onSubmit="return false">
-		  <input type="text" class="hex_input" id="i3e_hex_input" maxlength="8" placeholder="0" >
+		  <input type="text" class="hex_input" id="i3e_hex_input" maxlength="8" placeholder="0" readonly="readonly" >
 		  <span>
 			IEEE 754 HEX
 		  </span>

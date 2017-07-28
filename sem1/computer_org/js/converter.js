@@ -1,7 +1,7 @@
 ////////////////////////////////
 //
 // author: Kenth Remon Crisolo
-// email: kenth.crisolo@gmail.com
+// email: kcrisolo07@gmail.com
 //
 ////////////////////////////////
 
@@ -13,6 +13,7 @@ $(document).ready(function(){
 
 $("input").keyup(function(){
 	var $th = $(this);
+	$th.val($th.val().slice($th.val().search(/[^0]/)));
 	$th.val($th.val().replace(/(\..*)\./g, '$1'));
 });
 
@@ -24,13 +25,21 @@ $(".bin_input").keyup(function(){
 $("#bin_input").keyup(function(){
 	var $th = $(this);
 	bin = $th.val();
+
+	var str = $th.val().split('.');
+	str[0] = str[0].replace(/(.)(?=(.{4})+$)/g, '$1 ');
+	if (str[1]){
+		str[1] = str[1].replace(/(.{4})/g, '$1 ');
+	}
+	$th.val(str.join('.'));
+
 	$(".dec_input").val(binToDec(bin));
 	$("#hex_input").val(binToHex(bin));
 	$(".oct_input").val(binToOct(bin));
 
 	ieee_bin = binToIEEEBin(bin);
 	$("#i3e_bin_input").val(ieee_bin);
-	$("#i3e_hex_input").val(binToHex(ieee_bin.replace(/\ */g,'')));
+	$("#i3e_hex_input").val(binToHex(ieee_bin.replace(/\ */g,'')).replace(/(.{4})/g,'$1 '));
 });
 
 $(".hex_input").keyup(function(){
@@ -40,14 +49,18 @@ $(".hex_input").keyup(function(){
 
 $("#hex_input").keyup(function(){
 	var $th = $(this);
+
 	bin = hexToBin($th.val());
-	$("#bin_input").val(bin);
-	$(".dec_input").val(binToDec(bin));
-	$(".oct_input").val(binToOct(bin));
+
+	$th.val(bin_hex_separator($th.val()));
+
+	$("#bin_input").val(bin_hex_separator(bin));
+	$(".dec_input").val(dec_separator(binToDec(bin)));
+	$(".oct_input").val(oct_separator(binToOct(bin)));
 
 	ieee_bin = binToIEEEBin(bin);
 	$("#i3e_bin_input").val(ieee_bin);
-	$("#i3e_hex_input").val(binToHex(ieee_bin.replace(/\ */g,'')));
+	$("#i3e_hex_input").val(binToHex(ieee_bin.replace(/\ */g,'')).replace(/(.{4})/g,'$1 '));
 });
 
 $(".oct_input").keyup(function(){
@@ -55,13 +68,16 @@ $(".oct_input").keyup(function(){
 	$th.val($th.val().replace(/[^0-7\.]/g,''));
 
 	bin = octToBin($th.val());
-	$("#bin_input").val(bin);
-	$("#hex_input").val(binToHex(bin));
-	$(".dec_input").val(binToDec(bin));
+
+	$th.val(oct_separator($th.val()));
+
+	$("#bin_input").val(bin_hex_separator(bin));
+	$("#hex_input").val(bin_hex_separator(binToHex(bin)));
+	$(".dec_input").val(dec_separator(binToDec(bin)));
 
 	ieee_bin = binToIEEEBin(bin);
 	$("#i3e_bin_input").val(ieee_bin);
-	$("#i3e_hex_input").val(binToHex(ieee_bin.replace(/\ */g,'')));
+	$("#i3e_hex_input").val(binToHex(ieee_bin.replace(/\ */g,'')).replace(/(.{4})/g,'$1 '));
 });
 
 $(".dec_input").keyup(function(){
@@ -69,15 +85,47 @@ $(".dec_input").keyup(function(){
 	$th.val($th.val().replace(/[^0-9\.\-]/g,''));
 	$th.val($th.val().replace(/(\-.*)\-/g, '$1'));
 	$th.val($th.val().replace(/([0-9\.]+)\-.*/g, '$1'));
+
 	bin = decToBin($th.val());
-	$("#bin_input").val(bin);
-	$("#hex_input").val(binToHex(bin));
-	$(".oct_input").val(binToOct(bin));
+
+	$th.val(dec_separator($th.val()));
+
+	$("#bin_input").val(bin_hex_separator(bin));
+	$("#hex_input").val(bin_hex_separator(binToHex(bin)));
+	$(".oct_input").val(oct_separator(binToOct(bin)));
 
 	ieee_bin = binToIEEEBin(bin);
 	$("#i3e_bin_input").val(ieee_bin);
-	$("#i3e_hex_input").val(binToHex(ieee_bin.replace(/\ */g,'')));
+	$("#i3e_hex_input").val(binToHex(ieee_bin.replace(/\ */g,'')).replace(/(.{4})/g,'$1 '));
+
 });
+
+function dec_separator(s){
+	var str = s.split('.');
+	str[0] = str[0].replace(/(.)(?=(.{3})+$)/g, '$1,');
+	if (str[1]){
+		str[1] = str[1].replace(/(.{3})/g, '$1 ');
+	}
+	return str.join('.');
+}
+
+function oct_separator(s){
+	var str = s.split('.');
+	str[0] = str[0].replace(/(.)(?=(.{3})+$)/g, '$1 ');
+	if (str[1]){
+		str[1] = str[1].replace(/(.{3})/g, '$1 ');
+	}
+	return str.join('.');
+}
+
+function bin_hex_separator(s){
+	var str = s.split('.');
+	str[0] = str[0].replace(/(.)(?=(.{4})+$)/g, '$1 ');
+	if (str[1]){
+		str[1] = str[1].replace(/(.{4})/g, '$1 ');
+	}
+	return str.join('.');
+}
 
 
 function binToDec(str){
@@ -96,7 +144,7 @@ function binToDec(str){
 		var fracstr = str.slice(period+1);
 		ret = binToDec(intstr) + "." + fracBinToDec(fracstr);
 	}
-	return ret;
+	return String(ret);
 }
 
 function fracBinToDec(str){
@@ -110,7 +158,6 @@ function fracBinToDec(str){
 		}
 		ret = String(ret);
 		ret = ret.slice(ret.indexOf(".")+1);
-		console.log(ret);
 	}
 	return ret;
 }
@@ -243,6 +290,7 @@ function hexToBin(str){
 		ret += "."+hexToBin(fracstr);
 	}
 	if( Number(ret) == 0 ) ret = "0";
+	else ret = ret.slice(ret.indexOf("1"));
 	return ret;
 }
 
@@ -268,6 +316,7 @@ function decToBin(str){
 	}
 
 	if( Number(ret) == 0 ) ret = "0";
+	else ret = ret.slice(ret.indexOf("1"));
 	return ret;
 }
 
@@ -298,7 +347,7 @@ function octToBin(str){
 			var dum = str.charAt(i);
 			dum = parseInt(dum,10);
 			for( j = 0; j < 3; j++ ){
-				ret = ret.concat((dum&(1<<2-j))>>(2-j));
+				ret = ret.concat(((dum&(1<<2-j))==0?"0":"1"));
 			}
 		}
 	}
@@ -308,6 +357,7 @@ function octToBin(str){
 		ret = octToBin(intstr)+"."+octToBin(fracstr);
 	}
 	if( Number(ret) == 0 ) ret = "0";
+	else ret = ret.slice(ret.indexOf("1"));
 	return ret;
 }
 
@@ -329,7 +379,6 @@ function binToIEEEBin(str){
 			}
 			exp = decToBin(String(127+str.slice(str.indexOf("1")).length-1));
 			mantissa = str.slice(str.indexOf("1")+1);
-			console.log(mantissa);
 		}
 		// with fraction
 		else{
@@ -348,8 +397,6 @@ function binToIEEEBin(str){
 		if( mantissa.length > 23 ){
 			mantissa = mantissa.slice(0,23);
 		}
-		console.log(exp);
-		console.log(mantissa);
 	}
 
 	return sign + " " + exp + " " + mantissa;
