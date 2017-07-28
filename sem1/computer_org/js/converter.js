@@ -5,8 +5,8 @@
 //
 ////////////////////////////////
 
-var bitlength = new Array();
 var bin;
+var ieee_bin;
 $(document).ready(function(){
 	console.log("Hello World");
 });
@@ -27,12 +27,15 @@ $("#bin_input").keyup(function(){
 	$(".dec_input").val(binToDec(bin));
 	$("#hex_input").val(binToHex(bin));
 	$(".oct_input").val(binToOct(bin));
+
+	ieee_bin = binToIEEEBin(bin);
+	$("#i3e_bin_input").val(ieee_bin);
+	$("#i3e_hex_input").val(binToHex(ieee_bin.replace(/\ */g,'')));
 });
 
 $(".hex_input").keyup(function(){
 	var $th = $(this);
 	$th.val($th.val().replace(/[^0-9a-fA-F\.]/g,''));
-	// $th.val($th.val().replace(/(\..*)\./g, '$1'));
 });
 
 $("#hex_input").keyup(function(){
@@ -41,6 +44,10 @@ $("#hex_input").keyup(function(){
 	$("#bin_input").val(bin);
 	$(".dec_input").val(binToDec(bin));
 	$(".oct_input").val(binToOct(bin));
+
+	ieee_bin = binToIEEEBin(bin);
+	$("#i3e_bin_input").val(ieee_bin);
+	$("#i3e_hex_input").val(binToHex(ieee_bin.replace(/\ */g,'')));
 });
 
 $(".oct_input").keyup(function(){
@@ -51,6 +58,10 @@ $(".oct_input").keyup(function(){
 	$("#bin_input").val(bin);
 	$("#hex_input").val(binToHex(bin));
 	$(".dec_input").val(binToDec(bin));
+
+	ieee_bin = binToIEEEBin(bin);
+	$("#i3e_bin_input").val(ieee_bin);
+	$("#i3e_hex_input").val(binToHex(ieee_bin.replace(/\ */g,'')));
 });
 
 $(".dec_input").keyup(function(){
@@ -62,6 +73,10 @@ $(".dec_input").keyup(function(){
 	$("#bin_input").val(bin);
 	$("#hex_input").val(binToHex(bin));
 	$(".oct_input").val(binToOct(bin));
+
+	ieee_bin = binToIEEEBin(bin);
+	$("#i3e_bin_input").val(ieee_bin);
+	$("#i3e_hex_input").val(binToHex(ieee_bin.replace(/\ */g,'')));
 });
 
 
@@ -227,6 +242,7 @@ function hexToBin(str){
 		ret = hexToBin(intstr);
 		ret += "."+hexToBin(fracstr);
 	}
+	if( Number(ret) == 0 ) ret = "0";
 	return ret;
 }
 
@@ -250,6 +266,8 @@ function decToBin(str){
 		fracstr = "0."+fracstr;
 		ret = decToBin(intstr)+"."+fracDecToBin(fracstr);
 	}
+
+	if( Number(ret) == 0 ) ret = "0";
 	return ret;
 }
 
@@ -289,6 +307,52 @@ function octToBin(str){
 		var fracstr = str.slice(period+1);
 		ret = octToBin(intstr)+"."+octToBin(fracstr);
 	}
+	if( Number(ret) == 0 ) ret = "0";
 	return ret;
+}
+
+function binToIEEEBin(str){
+	var period = str.indexOf(".");
+	var sign = "0";
+	var exp = "";
+	var mantissa = "";
+	// integer only
+	if( Number(str) == 0 ){
+		exp = new Array(9).join("0");
+		mantissa = new Array(24).join("0");
+	}
+	else{
+		if( period == -1 ){
+			// if negative
+			if( str.length == 32 && str.charAt(0) == "1" ){
+				sign = "1";
+			}
+			exp = decToBin(String(127+str.slice(str.indexOf("1")).length-1));
+			mantissa = str.slice(str.indexOf("1")+1);
+			console.log(mantissa);
+		}
+		// with fraction
+		else{
+			var explen = period - str.indexOf("1") - 1;
+			exp = decToBin(String(127+explen));
+			mantissa = str.replace(".",'').slice(str.indexOf("1")+1);
+		}
+		if( exp.length < 8 ){
+			var lpad = new Array(9-exp.length).join("0");
+			exp = lpad.concat(exp);
+		}
+		if( mantissa.length < 23 ){
+			var rpad = new Array(24-mantissa.length).join("0");
+			mantissa += rpad;
+		}
+		if( mantissa.length > 23 ){
+			mantissa = mantissa.slice(0,23);
+		}
+		console.log(exp);
+		console.log(mantissa);
+	}
+
+	return sign + " " + exp + " " + mantissa;
+
 }
 
