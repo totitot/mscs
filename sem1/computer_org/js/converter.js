@@ -11,10 +11,14 @@ $(document).ready(function(){
 	console.log("Hello World");
 });
 
+$("input").keyup(function(){
+	var $th = $(this);
+	$th.val($th.val().replace(/(\..*)\./g, '$1'));
+});
+
 $(".bin_input").keyup(function(){
 	var $th = $(this);
 	$th.val($th.val().replace(/[^0-1\.]/g,''));
-	$th.val($th.val().replace(/(\..*)\./g, '$1'));
 });
 
 $("#bin_input").keyup(function(){
@@ -28,7 +32,7 @@ $("#bin_input").keyup(function(){
 $(".hex_input").keyup(function(){
 	var $th = $(this);
 	$th.val($th.val().replace(/[^0-9a-fA-F\.]/g,''));
-	$th.val($th.val().replace(/(\..*)\./g, '$1'));
+	// $th.val($th.val().replace(/(\..*)\./g, '$1'));
 });
 
 $("#hex_input").keyup(function(){
@@ -42,7 +46,6 @@ $("#hex_input").keyup(function(){
 $(".oct_input").keyup(function(){
 	var $th = $(this);
 	$th.val($th.val().replace(/[^0-7\.]/g,''));
-	$th.val($th.val().replace(/(\..*)\./g, '$1'));
 
 	bin = octToBin($th.val());
 	$("#bin_input").val(bin);
@@ -53,7 +56,6 @@ $(".oct_input").keyup(function(){
 $(".dec_input").keyup(function(){
 	var $th = $(this);
 	$th.val($th.val().replace(/[^0-9\.\-]/g,''));
-	$th.val($th.val().replace(/(\..*)\./g, '$1'));
 	$th.val($th.val().replace(/(\-.*)\-/g, '$1'));
 	$th.val($th.val().replace(/([0-9\.]+)\-.*/g, '$1'));
 	bin = decToBin($th.val());
@@ -70,13 +72,15 @@ function binToDec(str){
 		for( i = 0; i < str.length; i++ ){
 			ret+= parseInt(str.charAt(i),10)*Math.pow(2,str.length-1-i);
 		}
+		if( (ret > Math.pow(2,31)) && str.length <= 32 ){
+			ret = (~ret + 1)*-1;
+		}
 	}
 	else{
 		var intstr = str.slice(0,period);
 		var fracstr = str.slice(period+1);
 		ret = binToDec(intstr) + "." + fracBinToDec(fracstr);
 	}
-	ret = sign + ret;
 	return ret;
 }
 
@@ -98,12 +102,6 @@ function fracBinToDec(str){
 
 function binToHex(str){
 	var ret = "";
-	var sign = "";
-	if( str.indexOf("-") != -1 ){
-		sign = "-";
-		str = str.slice(1);
-	}
-
 	var period = str.indexOf(".");
 	if( period == -1 ){
 		if( str.length % 4 != 0 ){
@@ -113,7 +111,7 @@ function binToHex(str){
 			}
 		}
 
-		ret = numToHex(str);
+		ret = bin_hex_converter(str);
 	}
 	else{
 		var intstr = str.slice(0,period);
@@ -121,8 +119,6 @@ function binToHex(str){
 		ret = binToHex(intstr)+"."+fracBinToHex(fracstr);
 	}
 
-	ret = sign + ret;
-	
 	return ret;
 }
 
@@ -135,10 +131,10 @@ function fracBinToHex(str){
 		}
 	}
 
-	return numToHex(str);
+	return bin_hex_converter(str);
 }
 
-function numToHex(str){
+function bin_hex_converter(str){
 	var ret = "";
 	for(i = 0; i < (str.length/4);i++ ){
 		dum = 0;
@@ -163,12 +159,6 @@ function numToHex(str){
 
 function binToOct(str){
 	var ret = "";
-	var sign = "";
-	if( str.indexOf("-") != -1 ){
-		sign = "-";
-		str = str.slice(1);
-	}
-
 	var period = str.indexOf(".");
 	if( period == -1 ){
 		if( str.length % 3 != 0 ){
@@ -178,7 +168,7 @@ function binToOct(str){
 			}
 		}
 		
-		ret = numToOct(str);
+		ret = bin_oct_converter(str);
 	}
 	else{
 		var intstr = str.slice(0,period);
@@ -186,8 +176,6 @@ function binToOct(str){
 		ret = binToOct(intstr)+"."+fracBinToOct(fracstr);
 	}
 
-	ret = sign + ret;
-	
 	return ret;
 }
 
@@ -199,10 +187,10 @@ function fracBinToOct(str){
 		}
 	}
 	
-	return numToOct(str);
+	return bin_oct_converter(str);
 }
 
-function numToOct(str){
+function bin_oct_converter(str){
 	var ret = "";
 	for(i = 0; i < (str.length/3);i++ ){
 		dum = 0;
@@ -217,18 +205,27 @@ function numToOct(str){
 function hexToBin(str){
 	var ret = "";
 	str = str.toUpperCase();
-	for( i = 0; i < str.length; i++ ){
-		var dum = str.charAt(i);
-		if(dum == "A") dum = 10;
-		if(dum == "B") dum = 11;
-		if(dum == "C") dum = 12;
-		if(dum == "D") dum = 13;
-		if(dum == "E") dum = 14;
-		if(dum == "F") dum = 15;
-		dum = parseInt(dum,10);
-		for( j = 0; j < 4; j++ ){
-			ret = ret.concat((dum&(1<<3-j))>>(3-j));
+	var period = str.indexOf(".");
+	if( period == -1 ){
+		for( i = 0; i < str.length; i++ ){
+			var dum = str.charAt(i);
+			if(dum == "A") dum = 10;
+			if(dum == "B") dum = 11;
+			if(dum == "C") dum = 12;
+			if(dum == "D") dum = 13;
+			if(dum == "E") dum = 14;
+			if(dum == "F") dum = 15;
+			dum = parseInt(dum,10);
+			for( j = 0; j < 4; j++ ){
+				ret = ret.concat(((dum&(1<<3-j))==0?"0":"1"));
+			}
 		}
+	}
+	else{
+		var intstr = str.slice(0,period);
+		var fracstr = str.slice(period+1);
+		ret = hexToBin(intstr);
+		ret += "."+hexToBin(fracstr);
 	}
 	return ret;
 }
@@ -236,31 +233,62 @@ function hexToBin(str){
 function decToBin(str){
 	var ret = "";
 	var dum = parseInt(str,10);
-	var numlen = Math.ceil(Math.log(dum+1)/Math.LN2);
-	for( i = 0; i < numlen; i++ ){
-		ret = ret.concat((dum&(1<<numlen-1-i))>>(numlen-1-i));
+	var period = str.indexOf(".");
+	if( period == -1 ){
+		if( dum < 0 ){
+			dum = (Math.pow(2,32))-Math.abs(dum);
+		}
+
+		var numlen = Math.ceil(Math.log(dum+1)/Math.LN2);
+		for( i = 0; i < numlen; i++ ){
+			ret = ret.concat(((dum&(1<<numlen-1-i))==0?"0":"1"));
+		}
 	}
+	else{
+		var intstr = str.slice(0,period);
+		var fracstr = str.slice(period+1);
+		fracstr = "0."+fracstr;
+		ret = decToBin(intstr)+"."+fracDecToBin(fracstr);
+	}
+	return ret;
+}
+
+function fracDecToBin(str){
+	var ret = "";
+	str = Number(str);
+	var length = 0;
+	while(length < 32){
+		str *= 2;
+		if( str >= 1 ){
+			ret += "1";
+			str -= 1;
+		}
+		else{
+			ret += "0";
+		}
+		length++;
+	}
+	ret = (ret.slice(0,ret.lastIndexOf("1")+1));
 	return ret;
 }
 
 function octToBin(str){
 	var ret = "";
-	for( i = 0; i < str.length; i++ ){
-		var dum = str.charAt(i);
-		dum = parseInt(dum,10);
-		for( j = 0; j < 3; j++ ){
-			ret = ret.concat((dum&(1<<2-j))>>(2-j));
+	var period = str.indexOf(".");
+	if( period == -1 ){
+		for( i = 0; i < str.length; i++ ){
+			var dum = str.charAt(i);
+			dum = parseInt(dum,10);
+			for( j = 0; j < 3; j++ ){
+				ret = ret.concat((dum&(1<<2-j))>>(2-j));
+			}
 		}
+	}
+	else{
+		var intstr = str.slice(0,period);
+		var fracstr = str.slice(period+1);
+		ret = octToBin(intstr)+"."+octToBin(fracstr);
 	}
 	return ret;
 }
 
-function fillMenuWithArray(myMenu, myArray) {
-  // Fills the options of myMenu with the elements of myArray.
-  // !CAUTION!: It replaces the elements, so old ones will be deleted.
-  var i;
-  myMenu.length = myArray.length;
-  for (i = 0; i < myArray.length; i++) {
-    myMenu.options[i].text = myArray[i];
-  }
-}
