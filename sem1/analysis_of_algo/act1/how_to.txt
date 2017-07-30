@@ -1,0 +1,1 @@
+g++ statistician_unsorted.cpp statistician_sorted.cpp main.cpp -o test
