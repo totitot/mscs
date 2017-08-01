@@ -3,6 +3,8 @@
 // email: kcrisolo07@gmail.com
 // ////////////////////////////
 
+#ifndef BINARY_SEARCH__H
+#define BINARY_SEARCH__H
 #include <iostream>
 
 // O(log n) worst case
@@ -45,3 +47,5 @@ T lower_bound(T const& value, T arr[], size_t lo, size_t hi) {
 	}
 	return lo;
 }
+
+#endif

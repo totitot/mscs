@@ -3,6 +3,9 @@
 // email: kcrisolo07@gmail.com
 // ////////////////////////////
 
+#ifndef QUICKSORT__H
+#define QUICKSORT__H
+
 #include <iostream>
 #include <utility>
 
@@ -35,3 +38,4 @@ void quicksort(T Array[], const T& lo, const T& hi ){
 	return;
 }
 
+#endif
