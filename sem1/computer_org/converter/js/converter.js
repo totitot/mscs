@@ -12,26 +12,28 @@ $(document).ready(function(){
 });
 
 $("input").keyup(function(){
-	var $th = $(this);
-	$th.val($th.val().slice($th.val().search(/[^0]/)));
-	$th.val($th.val().replace(/(\..*)\./g, '$1'));
+	var th = $(this);
+	th.val(th.val().slice(th.val().search(/[^0]/)));
+	th.val(th.val().replace(/(\..*)\./g, '$1'));
 });
 
-$(".bin_input").keyup(function(){
-	var $th = $(this);
-	$th.val($th.val().replace(/[^0-1\.]/g,''));
+$(".non_zero_first").keyup(function(){
+	var th = $(this);
+	th.val(th.val().slice(th.val().search(/[^0]/)));
+	th.val(th.val().replace(/(\..*)\./g, '$1'));
 });
 
 $("#bin_input").keyup(function(){
-	var $th = $(this);
-	bin = $th.val();
+	var th = $(this);
+	th.val(th.val().replace(/[^0-1\.]/g,''));
+	bin = th.val();
 
-	var str = $th.val().split('.');
+	var str = th.val().split('.');
 	str[0] = str[0].replace(/(.)(?=(.{4})+$)/g, '$1 ');
 	if (str[1]){
 		str[1] = str[1].replace(/(.{4})/g, '$1 ');
 	}
-	$th.val(str.join('.'));
+	th.val(str.join('.'));
 
 	$(".dec_input").val(binToDec(bin));
 	$("#hex_input").val(binToHex(bin));
@@ -42,17 +44,36 @@ $("#bin_input").keyup(function(){
 	$("#i3e_hex_input").val(binToHex(ieee_bin.replace(/\ */g,'')).replace(/(.{4})/g,'$1 '));
 });
 
+$("#i3e_bin_input").keyup(function(){
+	var th = $(this);
+	th.val(th.val().replace(/[^0-1]/g,''));
+	bin = th.val();
+
+	var str = th.val().replace(/(.)(?=(.{23}|.{31})+$)/g, '$1 ');
+	th.val(str);
+});
+
+$("#i3e_hex_input").keyup(function(){
+	var th = $(this);
+	th.val(th.val().replace(/[^0-9a-fA-F]/g,''));
+	bin = th.val();
+
+	var str = th.val().replace(/(.{4})/g,'$1 ');
+	th.val(str);
+});
+
+
 $(".hex_input").keyup(function(){
-	var $th = $(this);
-	$th.val($th.val().replace(/[^0-9a-fA-F\.]/g,''));
+	var th = $(this);
+	th.val(th.val().replace(/[^0-9a-fA-F\.]/g,''));
 });
 
 $("#hex_input").keyup(function(){
-	var $th = $(this);
+	var th = $(this);
 
-	bin = hexToBin($th.val());
+	bin = hexToBin(th.val());
 
-	$th.val(bin_hex_separator($th.val()));
+	th.val(bin_hex_separator(th.val()));
 
 	$("#bin_input").val(bin_hex_separator(bin));
 	$(".dec_input").val(dec_separator(binToDec(bin)));
@@ -64,12 +85,12 @@ $("#hex_input").keyup(function(){
 });
 
 $(".oct_input").keyup(function(){
-	var $th = $(this);
-	$th.val($th.val().replace(/[^0-7\.]/g,''));
+	var th = $(this);
+	th.val(th.val().replace(/[^0-7\.]/g,''));
 
-	bin = octToBin($th.val());
+	bin = octToBin(th.val());
 
-	$th.val(oct_separator($th.val()));
+	th.val(oct_separator(th.val()));
 
 	$("#bin_input").val(bin_hex_separator(bin));
 	$("#hex_input").val(bin_hex_separator(binToHex(bin)));
@@ -81,14 +102,14 @@ $(".oct_input").keyup(function(){
 });
 
 $(".dec_input").keyup(function(){
-	var $th = $(this);
-	$th.val($th.val().replace(/[^0-9\.\-]/g,''));
-	$th.val($th.val().replace(/(\-.*)\-/g, '$1'));
-	$th.val($th.val().replace(/([0-9\.]+)\-.*/g, '$1'));
+	var th = $(this);
+	th.val(th.val().replace(/[^0-9\.\-]/g,''));
+	th.val(th.val().replace(/(\-.*)\-/g, '$1'));
+	th.val(th.val().replace(/([0-9\.]+)\-.*/g, '$1'));
 
-	bin = decToBin($th.val());
+	bin = decToBin(th.val());
 
-	$th.val(dec_separator($th.val()));
+	th.val(dec_separator(th.val()));
 
 	$("#bin_input").val(bin_hex_separator(bin));
 	$("#hex_input").val(bin_hex_separator(binToHex(bin)));
