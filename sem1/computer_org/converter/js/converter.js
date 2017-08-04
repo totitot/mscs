@@ -13,7 +13,6 @@ $(document).ready(function(){
 
 $("input").keyup(function(){
 	var th = $(this);
-	th.val(th.val().slice(th.val().search(/[^0]/)));
 	th.val(th.val().replace(/(\..*)\./g, '$1'));
 });
 
@@ -47,26 +46,57 @@ $("#bin_input").keyup(function(){
 $("#i3e_bin_input").keyup(function(){
 	var th = $(this);
 	th.val(th.val().replace(/[^0-1]/g,''));
-	bin = th.val();
+
+	if( th.val().length == 32 ){
+		bin = ieee_bin_to_bin(th.val());
+	}
+	else{
+		bin = "0";
+	}
+	ieee_bin = binToIEEEBin(bin);
+
+	$("#bin_input").val(bin);
+	$(".dec_input").val(binToDec(bin));
+	$("#hex_input").val(binToHex(bin));
+	$(".oct_input").val(binToOct(bin));
+	$("#i3e_hex_input").val(binToHex(ieee_bin.replace(/\ */g,'')).replace(/(.{4})/g,'$1 '));
 
 	var str = th.val().replace(/(.)(?=(.{23}|.{31})+$)/g, '$1 ');
 	th.val(str);
 });
 
-$("#i3e_hex_input").keyup(function(){
-	var th = $(this);
-	th.val(th.val().replace(/[^0-9a-fA-F]/g,''));
-	bin = th.val();
-
-	var str = th.val().replace(/(.{4})/g,'$1 ');
-	th.val(str);
-});
-
-
 $(".hex_input").keyup(function(){
 	var th = $(this);
 	th.val(th.val().replace(/[^0-9a-fA-F\.]/g,''));
 });
+
+$("#i3e_hex_input").keyup(function(){
+	var th = $(this);
+	th.val(th.val().replace(/[^0-9a-fA-F]/g,''));
+	console.log(th.val());
+
+	if( th.val().length == 8 ){
+		console.log((hexToBin(th.val())));
+		bin = ieee_bin_to_bin(hexToBin(th.val()));
+	}
+	else{
+		bin = "0";
+	}
+	ieee_bin = binToIEEEBin(bin);
+
+	var str = hexToBin(th.val()).replace(/(.)(?=(.{23}|.{31})+$)/g, '$1 ');
+
+	$("#bin_input").val(bin);
+	$(".dec_input").val(binToDec(bin));
+	$("#hex_input").val(binToHex(bin));
+	$(".oct_input").val(binToOct(bin));
+
+	$("#i3e_bin_input").val(str);
+
+	var str = bin_hex_separator(th.val());
+	th.val(str);
+});
+
 
 $("#hex_input").keyup(function(){
 	var th = $(this);
@@ -81,7 +111,7 @@ $("#hex_input").keyup(function(){
 
 	ieee_bin = binToIEEEBin(bin);
 	$("#i3e_bin_input").val(ieee_bin);
-	$("#i3e_hex_input").val(binToHex(ieee_bin.replace(/\ */g,'')).replace(/(.{4})/g,'$1 '));
+	$("#i3e_hex_input").val(bin_hex_separator(binToHex(ieee_bin.replace(/\ */g,''))));
 });
 
 $(".oct_input").keyup(function(){
@@ -98,7 +128,7 @@ $(".oct_input").keyup(function(){
 
 	ieee_bin = binToIEEEBin(bin);
 	$("#i3e_bin_input").val(ieee_bin);
-	$("#i3e_hex_input").val(binToHex(ieee_bin.replace(/\ */g,'')).replace(/(.{4})/g,'$1 '));
+	$("#i3e_hex_input").val(bin_hex_separator(binToHex(ieee_bin.replace(/\ */g,''))));
 });
 
 $(".dec_input").keyup(function(){
@@ -117,7 +147,7 @@ $(".dec_input").keyup(function(){
 
 	ieee_bin = binToIEEEBin(bin);
 	$("#i3e_bin_input").val(ieee_bin);
-	$("#i3e_hex_input").val(binToHex(ieee_bin.replace(/\ */g,'')).replace(/(.{4})/g,'$1 '));
+	$("#i3e_hex_input").val(bin_hex_separator(binToHex(ieee_bin.replace(/\ */g,''))));
 
 });
 
@@ -424,3 +454,40 @@ function binToIEEEBin(str){
 
 }
 
+function ieee_bin_to_bin(s){
+	var ret = "";
+	var sign = s.charAt(0);
+	var exp = Number(binToDec(s.slice(1,9)));
+	var mantissa = s.slice(9);
+
+	var last1 = mantissa.lastIndexOf("1")
+	var pospow = exp - 127;
+	console.log(exp);
+	console.log(pospow);
+	// value is less than one
+	if( pospow < 0 ){
+		var lpad = new Array(127-exp).join("0");
+		if( lpad == "" ) lpad = "1.";
+		else lpad = "0." + lpad + "1";
+		ret = lpad;
+		if( last1 != -1 ) ret += mantissa.slice(0,mantissa.lastIndexOf("1")+1);
+	}
+	// value is 0
+	else if( exp == 0 ){
+		ret = "0";
+	}
+	// value is equal to or greater than 1
+	else{
+		// integer only
+		if( last1 < pospow ){
+			var rpad = new Array(pospow-last1+1).join("0");
+			ret = "1" + mantissa.slice(0,last1) + rpad;
+		}
+		else{
+			ret = "1" + mantissa.slice(0,pospow)+"."+mantissa.slice(pospow,last1+1);
+		}
+	}
+
+	return ret;
+
+}
