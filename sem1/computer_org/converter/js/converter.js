@@ -426,13 +426,26 @@ function binToIEEEBin(str){
 		if( period == -1 ){
 			// if negative
 			if( str.length == 32 && str.charAt(0) == "1" ){
+				var tempstr = "";
 				sign = "1";
+				for( i = 1; i < str.length; i++ ){
+					tempstr += (str.charAt(i) == "1")?"0":"1";
+				}
+				str = decToBin(String(Number(binToDec(tempstr))+1));
 			}
 			exp = decToBin(String(127+str.slice(str.indexOf("1")).length-1));
 			mantissa = str.slice(str.indexOf("1")+1);
 		}
 		// with fraction
 		else{
+			if( period == 32 && str.charAt(0) == "1" ){
+				var tempstr = "";
+				sign = "1";
+				for( i = 1; i < period; i++ ){
+					tempstr += (str.charAt(i) == "1")?"0":"1";
+				}
+				str = decToBin(String(Number(binToDec(tempstr))+1)) + str.slice(period);
+			}
 			var explen = period - str.indexOf("1") - 1;
 			exp = decToBin(String(127+explen));
 			mantissa = str.replace(".",'').slice(str.indexOf("1")+1);
@@ -464,6 +477,7 @@ function ieee_bin_to_bin(s){
 	var pospow = exp - 127;
 	console.log(exp);
 	console.log(pospow);
+	console.log(last1);
 	// value is less than one
 	if( pospow < 0 ){
 		var lpad = new Array(127-exp).join("0");
@@ -479,7 +493,10 @@ function ieee_bin_to_bin(s){
 	// value is equal to or greater than 1
 	else{
 		// integer only
-		if( last1 < pospow ){
+		if( last1 == (pospow-1) ){
+			ret = "1" + mantissa.slice(0,last1+1);
+		}
+		else if( last1 < (pospow-1) ){
 			var rpad = new Array(pospow-last1+1).join("0");
 			ret = "1" + mantissa.slice(0,last1) + rpad;
 		}
@@ -487,6 +504,8 @@ function ieee_bin_to_bin(s){
 			ret = "1" + mantissa.slice(0,pospow)+"."+mantissa.slice(pospow,last1+1);
 		}
 	}
+
+	console.log(ret);
 
 	return ret;
 
