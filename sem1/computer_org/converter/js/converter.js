@@ -341,7 +341,6 @@ function hexToBin(str){
 		ret += "."+hexToBin(fracstr);
 	}
 	if( Number(ret) == 0 ) ret = "0";
-	else ret = ret.slice(ret.indexOf("1"));
 	return ret;
 }
 
@@ -364,10 +363,10 @@ function decToBin(str){
 		var fracstr = str.slice(period+1);
 		fracstr = "0."+fracstr;
 		ret = decToBin(intstr)+"."+fracDecToBin(fracstr);
+		console.log(ret);
 	}
 
 	if( Number(ret) == 0 ) ret = "0";
-	else ret = ret.slice(ret.indexOf("1"));
 	return ret;
 }
 
@@ -408,7 +407,6 @@ function octToBin(str){
 		ret = octToBin(intstr)+"."+octToBin(fracstr);
 	}
 	if( Number(ret) == 0 ) ret = "0";
-	else ret = ret.slice(ret.indexOf("1"));
 	return ret;
 }
 
@@ -417,7 +415,7 @@ function binToIEEEBin(str){
 	var sign = "0";
 	var exp = "";
 	var mantissa = "";
-	// integer only
+	// zero only
 	if( Number(str) == 0 ){
 		exp = new Array(9).join("0");
 		mantissa = new Array(24).join("0");
@@ -444,12 +442,14 @@ function binToIEEEBin(str){
 				for( i = 1; i < period; i++ ){
 					tempstr += (str.charAt(i) == "1")?"0":"1";
 				}
-				str = decToBin(String(Number(binToDec(tempstr))+1)) + str.slice(period);
+				str = decToBin(String(Number(binToDec(tempstr))+1)) + str.slice(period+1);
 			}
 			var explen = period - str.indexOf("1") - 1;
 			exp = decToBin(String(127+explen));
 			mantissa = str.replace(".",'').slice(str.indexOf("1")+1);
 		}
+
+		// pad 0
 		if( exp.length < 8 ){
 			var lpad = new Array(9-exp.length).join("0");
 			exp = lpad.concat(exp);
@@ -499,9 +499,11 @@ function ieee_bin_to_bin(s){
 		else if( last1 < (pospow-1) ){
 			var rpad = new Array(pospow-last1+1).join("0");
 			ret = "1" + mantissa.slice(0,last1) + rpad;
+			console.log(ret);
 		}
 		else{
 			ret = "1" + mantissa.slice(0,pospow)+"."+mantissa.slice(pospow,last1+1);
+			console.log(ret);
 		}
 	}
 
