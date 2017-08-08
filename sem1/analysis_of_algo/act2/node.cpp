@@ -27,9 +27,13 @@ void Node::add( int data ){
 
 // in-order
 void Node::display(){
-	if( lptr != nullptr ) lptr->display();
+	if( lptr != nullptr )
+		lptr->display();
+
 	cout << value << " ";
-	if( rptr != nullptr ) rptr->display();
+
+	if( rptr != nullptr )
+		rptr->display();
 
 	return;
 }
@@ -37,17 +41,24 @@ void Node::display(){
 // in-order
 int Node::median(int & cnt, int mid){
 	int ret = 0;
-	if((lptr != nullptr) && (cnt < mid)) ret = lptr->median(cnt,mid);
+
+	if((lptr != nullptr) && (cnt < mid)){
+		ret = lptr->median(cnt,mid);
+	}
+
 	cnt++;
+
 	if( cnt == mid ){
 		ret = value;
 	}
-	else if((rptr != nullptr) && (cnt < mid)) ret = rptr->median(cnt,mid);
+	else if((rptr != nullptr) && (cnt < mid)){
+		ret = rptr->median(cnt,mid);
+	}
 
 	return ret;
 }
 
-// iterative, can be implemented as non-iterative using while
+// recursive, can be implemented as iterative using while
 bool Node::contains(int data){
 	bool ret = false;
 	if( value == data ) ret = true;
@@ -61,7 +72,7 @@ bool Node::contains(int data){
 	return ret;
 }
 
-// iterative, can be implemented as non-iterative using while
+// recursive, can be implemented as iterative using while
 int Node::sum(){
 	int ret = value;
 	if( lptr != nullptr ) ret += lptr->sum();
@@ -70,7 +81,7 @@ int Node::sum(){
 	return ret;
 }
 
-// iterative, can be implemented as non-iterative using while
+// recursive, can be implemented as iterative using while
 int Node::min(){
 	if( lptr == nullptr ) return value;
 	else{
@@ -78,7 +89,7 @@ int Node::min(){
 	}
 }
 
-// iterative, can be implemented as non-iterative using while
+// recursive, can be implemented as iterative using while
 int Node::max(){
 	if( rptr == nullptr ) return value;
 	else{

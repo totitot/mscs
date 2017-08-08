@@ -18,10 +18,26 @@ void Statv3::add( int data ){
 }
 
 bool Statv3::contains(int data){
-	bool ret = false;
-	if( root != nullptr ) ret = root->contains(data);
-	return ret;
+	Node * ret = search(root, data);
+	return (ret != nullptr);
 }
+
+Node * Statv3::search(Node * current_node, int data){
+	while( (current_node != nullptr) && (data != current_node->value) ){
+		if( data < current_node->value ){
+			current_node = current_node->lptr;
+		}
+		else{
+			current_node = current_node->rptr;
+		}
+	}
+	return current_node;
+}
+
+void Statv3::remove(int data){
+	
+}
+
 
 void Statv3::display(){
 	if( root != nullptr ) root->display();

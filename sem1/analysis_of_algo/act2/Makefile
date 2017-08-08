@@ -8,7 +8,7 @@ MAIN=main.cpp
 TARGET=test
 
 .PHONY: all
-all: run 
+all: comp link run 
 
 .PHONY: link
 link: $(TARGET)

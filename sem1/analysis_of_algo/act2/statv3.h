@@ -23,10 +23,12 @@ public:
 	int max();
 	int median();
 	float mean();
+	void remove(int data);
 
 private:
 	Node * root;
 	int ref_cnt;
+	Node * search(Node * current_node, int data);
 	
 };
 
