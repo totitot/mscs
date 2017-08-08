@@ -41,13 +41,21 @@ float Statv3::mean(){
 
 int Statv3::min(){
 	int ret = 0;
-	if( root != nullptr ) ret = root->min();
+	Node * current_node = root;
+	while( current_node->lptr != nullptr ){
+		current_node = current_node->lptr;
+	}
+	if( current_node != nullptr ) ret = current_node->value;
 	return ret;
 }
 
 int Statv3::max(){
 	int ret = 0;
-	if( root != nullptr ) ret = root->max();
+	Node * current_node = root;
+	while( current_node->rptr != nullptr ){
+		current_node = current_node->rptr;
+	}
+	if( current_node != nullptr ) ret = current_node->value;
 	return ret;
 }
 
