@@ -11,8 +11,9 @@
 using namespace std;
 
 struct Node{
-	Node(int v):
+	Node(int v, Node * p):
 		  value(v)
+		, parent(p)
 		, lptr(nullptr)
 		, rptr(nullptr)
 	{}
@@ -24,8 +25,9 @@ struct Node{
 	int sum();
 	int min();
 	int max();
+	void remove(int data);
 	int median(int & cnt, int mid);
-	Node * lptr, * rptr; 
+	Node * lptr, * rptr, * parent; 
 };
 
 #endif

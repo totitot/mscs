@@ -12,6 +12,12 @@ int main(int argc, char* argv[]){
     std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
     std::uniform_int_distribution<> dis(1, 100);
 
+	s3.add(dis(gen));
+	s3.add(dis(gen));
+	s3.add(dis(gen));
+	s3.add(dis(gen));
+	s3.add(dis(gen));
+	s3.add(dis(gen));
 	s3.add(3);
 	s3.add(2);
 	s3.add(1);
@@ -19,12 +25,18 @@ int main(int argc, char* argv[]){
 	s3.add(7);
 	s3.add(3);
 	s3.display();
-	cout << (s3.contains(0)?"true":"false") << endl;
+	cout << "contains 3: " << (s3.contains(3)?"true":"false") << endl;
 	cout << s3.sum() << endl;
 	cout << s3.mean() << endl;
 	cout << s3.min() << endl;
 	cout << s3.max() << endl;
 	cout << s3.median() << endl;
+	s3.add(3);
+	s3.add(2);
+	s3.add(1);
+	s3.add(4);
+	s3.add(7);
+	s3.add(3);
 	s3.add(dis(gen));
 	s3.add(dis(gen));
 	s3.add(dis(gen));
@@ -32,7 +44,7 @@ int main(int argc, char* argv[]){
 	s3.add(dis(gen));
 	s3.add(dis(gen));
 	s3.display();
-	cout << (s3.contains(0)?"true":"false") << endl;
+	cout << "contains 3: " << (s3.contains(3)?"true":"false") << endl;
 	cout << s3.sum() << endl;
 	cout << s3.mean() << endl;
 	cout << s3.min() << endl;

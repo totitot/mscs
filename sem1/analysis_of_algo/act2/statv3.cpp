@@ -7,7 +7,7 @@
 
 void Statv3::add( int data ){
 	if( root == nullptr ){
-		root = new Node(data);
+		root = new Node(data, nullptr);
 	}
 	else{
 		root->add(data);
@@ -41,28 +41,20 @@ float Statv3::mean(){
 
 int Statv3::min(){
 	int ret = 0;
-	Node * current_node = root;
-	while( current_node->lptr != nullptr ){
-		current_node = current_node->lptr;
-	}
-	if( current_node != nullptr ) ret = current_node->value;
+	if( root != nullptr ) ret = root->min();
 	return ret;
 }
 
 int Statv3::max(){
 	int ret = 0;
-	Node * current_node = root;
-	while( current_node->rptr != nullptr ){
-		current_node = current_node->rptr;
-	}
-	if( current_node != nullptr ) ret = current_node->value;
+	if( root != nullptr ) ret = root->max();
 	return ret;
 }
 
 int Statv3::median(){
 	int ret = 0;
 	int cnt = 0;
-	if( root != nullptr ) ret = root->median(cnt,ref_cnt/2);
+	if( root != nullptr ) ret = root->median(cnt,(ref_cnt/2)+1);
 	return ret;
 }
 
