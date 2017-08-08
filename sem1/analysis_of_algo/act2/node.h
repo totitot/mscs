@@ -12,7 +12,7 @@ using namespace std;
 
 struct Node{
 	Node(int v):
-		value(v)
+		  value(v)
 		, lptr(nullptr)
 		, rptr(nullptr)
 	{}

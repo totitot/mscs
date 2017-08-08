@@ -36,10 +36,10 @@ void Node::display(){
 
 int Node::median(int & cnt, int mid){
 	int ret = 0;
-	if( lptr != nullptr ) ret = lptr->(cnt,mid);
+	if( lptr != nullptr ) ret = lptr->median(cnt,mid);
 	cnt++;
 	if( cnt == mid ) ret = value;
-	else if( rptr != nullptr ) ret = rptr->(cnt,mid);
+	else if( rptr != nullptr ) ret = rptr->median(cnt,mid);
 
 	return ret;
 }
