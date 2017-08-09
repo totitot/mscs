@@ -75,6 +75,8 @@ int main(int argc, char* argv[]){
 	cout << "max : " << s3.max() << endl;
 	cout << "mean : " << s3.mean() << endl;
 	cout << "median : " << s3.median() << endl;
+	s3.remove(3);
+	s3.display();
 
 //	su.add(2);
 //	su.add(1);

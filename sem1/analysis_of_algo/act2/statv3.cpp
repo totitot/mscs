@@ -35,7 +35,81 @@ Node * Statv3::search(Node * current_node, int data){
 }
 
 void Statv3::remove(int data){
-	
+	Node * current_node = search(root,data);
+	while(current_node != nullptr){
+		// no children
+		if(
+			   (current_node->lptr == nullptr)
+			&& (current_node->rptr == nullptr)
+		){
+			move(current_node,nullptr);
+		}
+		// only one child at lptr
+		else if(
+			   (current_node->lptr != nullptr)
+			&& (current_node->rptr == nullptr)
+		){
+			move(current_node,current_node->lptr);
+		}
+		// only one child at rptr
+		else if(
+			   (current_node->lptr == nullptr)
+			&& (current_node->rptr != nullptr)
+		){
+			move(current_node,current_node->rptr);
+
+		}
+		// two children
+		else{
+			Node * temp = minimum(current_node->rptr);
+			if( temp->parent != current_node ){
+				move( current_node, current_node->rptr );
+				temp->rptr = temp->rptr;
+				temp->rptr->parent = temp;
+			}
+			move(current_node, temp);
+			temp->lptr = current_node->lptr;
+			temp->lptr->parent = temp;
+		}
+		current_node = search(root,data);
+	}
+}
+
+void Statv3::move( Node * dst, Node * src ){
+	if( dst == root ){
+		root = src;
+	}
+	else if( dst == dst->parent->lptr ){
+		dst->parent->lptr = src;
+	}
+	else{
+		dst->parent->rptr = src;
+	}
+
+	if( src != nullptr ){
+		src->parent = dst->parent;
+	}
+	delete dst;
+	return;
+}
+
+Node * Statv3::successor(Node * node){
+	Node * ret = nullptr;
+	if( node->rptr != nullptr ){
+		ret = minimum(node->rptr);
+	}
+	else{
+		Node * current_node = node;
+		while( 
+			   (current_node->parent != nullptr)
+			&& (current_node == current_node->parent->rptr )
+		){
+			current_node = current_node->parent;
+		}
+		ret = current_node->parent;
+	}
+
+	return ret;
 }
 
 
@@ -45,6 +119,7 @@ void Statv3::display(){
 	return;
 }
 
+// recursive
 int Statv3::sum(){
 	int ret = 0;
 	if( root != nullptr ) ret = root->sum();
@@ -55,15 +130,37 @@ float Statv3::mean(){
 	return sum()/static_cast<float>(ref_cnt);
 }
 
+// iterative, can be recursive using Node::min()
 int Statv3::min(){
 	int ret = 0;
-	if( root != nullptr ) ret = root->min();
+	// if( root != nullptr ) ret = root->min();
+	Node * current_node = minimum(root);
+	if( current_node != nullptr ) ret = current_node->value;
 	return ret;
 }
 
+Node * Statv3::minimum(Node * current_node){
+	Node * ret = current_node;
+	while( ret->lptr != nullptr ){
+		ret = ret->lptr;
+	}
+	return ret;
+}
+
+// iterative, can be recursive using Node::max()
 int Statv3::max(){
 	int ret = 0;
-	if( root != nullptr ) ret = root->max();
+	// if( root != nullptr ) ret = root->max();
+	Node * current_node = maximum(root);
+	if( current_node != nullptr ) ret = current_node->value;
+	return ret;
+}
+
+Node * Statv3::maximum(Node * current_node){
+	Node * ret = current_node;
+	while( ret->rptr != nullptr ){
+		ret = ret->rptr;
+	}
 	return ret;
 }
 

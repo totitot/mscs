@@ -10,6 +10,8 @@
 
 using namespace std;
 
+class Statv3;
+
 struct Node{
 	Node(int v, Node * p):
 		  value(v)
@@ -18,8 +20,10 @@ struct Node{
 		, rptr(nullptr)
 	{}
 
+	friend class Statv3;
+
 	void add(int data);
-	bool contains(int data);
+	Node * search(int data);
 	void display();
 	int value;
 	int sum();
@@ -27,6 +31,8 @@ struct Node{
 	int max();
 	void remove(int data);
 	int median(int & cnt, int mid);
+
+private:
 	Node * lptr, * rptr, * parent; 
 };
 

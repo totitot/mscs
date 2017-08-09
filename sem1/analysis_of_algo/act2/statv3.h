@@ -29,6 +29,10 @@ private:
 	Node * root;
 	int ref_cnt;
 	Node * search(Node * current_node, int data);
+	Node * successor(Node * current_node);
+	Node * minimum(Node * current_node);
+	Node * maximum(Node * current_node);
+	void move( Node * dst, Node * src );
 	
 };
 

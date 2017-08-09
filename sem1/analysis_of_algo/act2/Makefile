@@ -34,7 +34,6 @@ run: $(TARGET)
 
 .PHONY: clean
 clean:
-	-@rm -rf DVEfiles *.vcd *.log *.vpd $(TARDIR) *.$(OBJEXT) \
-	*.lo cwr Debug install $(OBJDIR) .cwr* .sim* *.txt
+	-@rm -rf *.$(OBJEXT) $(TARGET) *.exe
 
 

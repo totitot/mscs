@@ -38,7 +38,7 @@ void Node::display(){
 	return;
 }
 
-// in-order
+// in-order, recursive
 int Node::median(int & cnt, int mid){
 	int ret = 0;
 
@@ -59,14 +59,14 @@ int Node::median(int & cnt, int mid){
 }
 
 // recursive, can be implemented as iterative using while
-bool Node::contains(int data){
-	bool ret = false;
-	if( value == data ) ret = true;
+Node * Node::search(int data){
+	Node * ret = nullptr;
+	if( value == data ) ret = this;
 	else if( data < value ){
-		if( lptr != nullptr ) ret = lptr->contains(data);
+		if( lptr != nullptr ) ret = lptr->search(data);
 	}
 	else{
-		if( rptr != nullptr ) ret = rptr->contains(data);
+		if( rptr != nullptr ) ret = rptr->search(data);
 	}
 
 	return ret;
