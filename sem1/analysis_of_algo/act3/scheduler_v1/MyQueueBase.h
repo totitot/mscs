@@ -1,3 +1,9 @@
+///////////////////////////////
+//
+// author: Kenth Remon Crisolo
+// email: kcrisolo07@gmail.com
+//
+///////////////////////////////
 
 #ifndef MYQUEUEBASE__H
 #define MYQUEUEBASE__H

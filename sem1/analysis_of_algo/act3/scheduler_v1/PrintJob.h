@@ -1,3 +1,9 @@
+///////////////////////////////
+//
+// author: Kenth Remon Crisolo
+// email: kcrisolo07@gmail.com
+//
+///////////////////////////////
 
 #ifndef PRINTJOB__H
 #define PRINTJOB__H
