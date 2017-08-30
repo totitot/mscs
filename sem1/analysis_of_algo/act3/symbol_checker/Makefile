@@ -3,7 +3,7 @@ CXX=g++
 CFLAGS=-std=c++11
 LDFLAGS=
 OBJEXT=o
-OBJS=node.$(OBJEXT) statv3.$(OBJEXT)
+OBJS=SymbolChecker.$(OBJEXT)
 MAIN=main.cpp
 TARGET=test
 
@@ -34,6 +34,6 @@ run: $(TARGET)
 
 .PHONY: clean
 clean:
-	-@rm -rf *.$(OBJEXT) $(TARGET) *.exe*
+	-@rm -rf *.$(OBJEXT) $(TARGET) *.exe
 
 

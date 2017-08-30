@@ -42,13 +42,22 @@ void Statv3::remove(int data){
 			   (current_node->lptr == nullptr)
 			&& (current_node->rptr == nullptr)
 		){
-			move(current_node,nullptr);
+			cout << "current_node : " << current_node->value << " has no children. " << endl;
+			if( current_node == current_node->parent->lptr ){
+				current_node->parent->lptr = nullptr;
+			}
+			else{
+				current_node->parent->rptr = nullptr;
+			}
+			delete current_node;
+			current_node = nullptr;
 		}
 		// only one child at lptr
 		else if(
 			   (current_node->lptr != nullptr)
 			&& (current_node->rptr == nullptr)
 		){
+			cout << "current_node : " << current_node->value << " has one left children. " << endl;
 			move(current_node,current_node->lptr);
 		}
 		// only one child at rptr
@@ -56,27 +65,34 @@ void Statv3::remove(int data){
 			   (current_node->lptr == nullptr)
 			&& (current_node->rptr != nullptr)
 		){
+			cout << "current_node : " << current_node->value << " has one right children. " << endl;
 			move(current_node,current_node->rptr);
-
 		}
 		// two children
 		else{
+			cout << "current_node : " << current_node->value << " has two children: " << current_node->lptr->value << " and " << current_node->rptr->value << endl;
 			Node * temp = minimum(current_node->rptr);
 			if( temp->parent != current_node ){
-				move( current_node, current_node->rptr );
-				temp->rptr = temp->rptr;
+				if( temp->rptr != nullptr ) move( temp, temp->rptr );
+				else{
+					temp->parent->lptr = nullptr;
+				}
+				temp->rptr = current_node->rptr;
 				temp->rptr->parent = temp;
 			}
 			move(current_node, temp);
 			temp->lptr = current_node->lptr;
 			temp->lptr->parent = temp;
 		}
+		delete current_node;
+		current_node = nullptr;
 		current_node = search(root,data);
 	}
 }
 
 void Statv3::move( Node * dst, Node * src ){
-	if( dst == root ){
+	cout << " move " << src->value << " to " << dst->value << endl;
+	if( dst->parent == nullptr ){
 		root = src;
 	}
 	else if( dst == dst->parent->lptr ){
@@ -89,7 +105,8 @@ void Statv3::move( Node * dst, Node * src ){
 	if( src != nullptr ){
 		src->parent = dst->parent;
 	}
-	delete dst;
+
+	cout << " move done " << endl;
 	return;
 }
 

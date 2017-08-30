@@ -18,7 +18,7 @@ int main(int argc, char* argv[]){
 
 	display_error(ret);
 
-	return ret;
+	return 0;
 }
 
 void display_error(int ercode){
