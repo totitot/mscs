@@ -1,3 +1,9 @@
+##############################
+#
+# author: Kenth Remon Crisolo
+# email: kcrisolo07@gmail.com
+#
+##############################
 
 CXX=g++
 CFLAGS=-std=c++11

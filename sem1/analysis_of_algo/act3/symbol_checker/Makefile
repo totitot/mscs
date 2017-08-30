@@ -30,7 +30,7 @@ again: clean all
 
 .PHONY: run
 run: $(TARGET)
-	-@./$<
+	-@./$< ./test_file.txt
 
 .PHONY: clean
 clean:

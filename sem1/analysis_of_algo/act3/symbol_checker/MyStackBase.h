@@ -1,3 +1,9 @@
+///////////////////////////////
+//
+// author: Kenth Remon Crisolo
+// email: kcrisolo07@gmail.com
+//
+///////////////////////////////
 
 #ifndef MYSTACKBASE__H
 #define MYSTACKBASE__H

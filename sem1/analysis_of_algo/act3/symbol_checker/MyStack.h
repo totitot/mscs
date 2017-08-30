@@ -1,3 +1,10 @@
+///////////////////////////////
+//
+// author: Kenth Remon Crisolo
+// email: kcrisolo07@gmail.com
+//
+///////////////////////////////
+
 #include <stack>
 #include "MyStackBase.h"
 
@@ -12,23 +19,23 @@ public:
 	MyStack(){
 	}
 
-	virtual void push(T x){
+	virtual void push(T x) override{
 		int_stack.push(x);
 	}
 
-	virtual void pop(){
+	virtual void pop() override{
 		int_stack.pop();
 	}
 
-	virtual T peek() const{
+	virtual T peek() const override{
 		return int_stack.top();
 	}
 
-	virtual bool isEmpty(){
+	virtual bool isEmpty() override{
 		return int_stack.empty();
 	}
 
-	virtual void clear(){
+	virtual void clear() override{
 		while( int_stack.empty() ){
 			int_stack.pop();
 		}

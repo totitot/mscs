@@ -1,3 +1,10 @@
+///////////////////////////////
+//
+// author: Kenth Remon Crisolo
+// email: kcrisolo07@gmail.com
+//
+///////////////////////////////
+
 #include "MyStack.h"
 #include <cstdio>
 #include <fstream>

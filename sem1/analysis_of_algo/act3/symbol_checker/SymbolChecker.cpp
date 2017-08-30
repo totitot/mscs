@@ -1,13 +1,19 @@
+///////////////////////////////
+//
+// author: Kenth Remon Crisolo
+// email: kcrisolo07@gmail.com
+//
+///////////////////////////////
+
 #include "SymbolChecker.h"
 
 int SymbolChecker::operator()(ifstream& f){
 	int ret = 0;
 	char sym;
 	if( f.is_open() && f.good() ){
-		while( !f.eof() ){
-			f >> sym;
+		while( f >> sym ){
+			cout << sym << endl;;
 			if( sym == '{' || sym == '[' || sym == '(' ){
-				cout << sym << endl;
 				char_stack.push(sym);
 			}
 
