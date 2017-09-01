@@ -1,9 +1,15 @@
+###############################
+#
+# author: Kenth Remon Crisolo
+# email: kcrisolo07@gmail.com
+#
+###############################
 
 CXX=g++
 CFLAGS=-std=c++11
 LDFLAGS=
 OBJEXT=o
-OBJS=Assign.$(OBJEXT)
+OBJS=Assign.$(OBJEXT) Assign_regex.$(OBJEXT)
 MAIN=main.cpp
 TARGET=test
 

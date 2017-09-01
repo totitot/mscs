@@ -77,15 +77,6 @@ private:
 	int eq_table[3][2];
 	int sem_table[3][2];
 
-	// array<array<int,5>,6>main_table;
-	// array<array<int,4>,3>var_table;
-	// array<array<int,4>,3>lit_table;
-	// array<array<int,2>,3>op_table;
-	// array<array<int,2>,3>eq_table;
-	// array<array<int,2>,3>sem_table;
-
-
-	int state;
 };
 
 
