@@ -1,3 +1,9 @@
+###############################
+#
+# author: Kenth Remon Crisolo
+# email: kcrisolo07@gmail.com
+#
+###############################
 
 CXX=g++
 CFLAGS=-std=c++11
@@ -13,7 +19,7 @@ all: comp link run
 .PHONY: link
 link: $(TARGET)
 
-$(TARGET): $(OBJS)
+$(TARGET): $(OBJS) $(MAIN)
 	$(CXX) $(CFLAGS) $(LDFLAGS) $(OBJS) $(MAIN) -o $@
 
 .PHONY: comp

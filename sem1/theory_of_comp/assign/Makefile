@@ -1,15 +1,9 @@
-##############################
-#
-# author: Kenth Remon Crisolo
-# email: kcrisolo07@gmail.com
-#
-##############################
 
 CXX=g++
 CFLAGS=-std=c++11
 LDFLAGS=
 OBJEXT=o
-OBJS=
+OBJS=Assign.$(OBJEXT)
 MAIN=main.cpp
 TARGET=test
 
@@ -36,7 +30,7 @@ again: clean all
 
 .PHONY: run
 run: $(TARGET)
-	-@./$<
+	-@./$< ./test_file.txt
 
 .PHONY: clean
 clean:
