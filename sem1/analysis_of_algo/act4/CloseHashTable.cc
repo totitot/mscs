@@ -4,7 +4,7 @@
 void CloseHashTable::add(const element_type& e){
 }
 
-// return index where element can be found
+// check whether an element has been stored
 bool CloseHashTable::find(const element_type::first_type& key){
 }
 

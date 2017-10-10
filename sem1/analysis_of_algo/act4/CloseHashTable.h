@@ -10,7 +10,7 @@ public:
 	// add element to the hash table
 	virtual void add(const element_type& e) override;
 
-	// return index where element can be found
+	// check whether an element has been stored
 	virtual bool find(const element_type::first_type& key) override;
 
 	// remove index from tree

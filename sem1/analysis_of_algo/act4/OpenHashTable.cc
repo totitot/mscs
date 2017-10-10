@@ -4,7 +4,7 @@
 void OpenHashTable::add(const element_type& e){
 }
 
-// return index where element can be found
+// check whether an element has been stored
 bool OpenHashTable::find(const element_type::first_type& key){
 }
 
