@@ -1,31 +1,34 @@
 
-
 #ifndef HASHTABLEBASE__H
 #define HASHTABLEBASE__H
 
 #include <utility>
 #include <string>
-#include <random>
+#include <functional>
 
 using namespace std;
-using element_type = std::pair<string,int>;
 
 class HashTableBase{
 public:
+	using element_type = std::pair<string,int>;
+	using hash_type = std::hash<element_type::first_type>;
+
+	// add element to the hash table
 	virtual void add(const element_type& e) = 0;
-	virtual size_t find(const element_type::first_type& key) = 0;
+
+	// return index where element can be found
+	virtual bool find(const element_type::first_type& key) = 0;
+
+	// remove index from tree
 	virtual bool remove(const element_type& dt) = 0;
-protected:
+
+// protected:
+	hash_type hf;
+
 	size_t hash(const element_type::first_type& key){
-		size_t sum = 0;
-
-		// iterate through all values of the key
-		for( auto c: std::as_const(key) ){
-			sum += std::mt19937 gen(c);
-		}
-
-		return sum;
+		return hf(key);
 	}
-}
+
+};
 
 #endif
