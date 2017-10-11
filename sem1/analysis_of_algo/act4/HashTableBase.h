@@ -25,7 +25,7 @@ public:
 // protected:
 	hash_type hf;
 
-	size_t hash(const element_type::first_type& key){
+	size_t _hash(const element_type::first_type& key){
 		return hf(key);
 	}
 

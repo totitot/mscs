@@ -8,7 +8,7 @@
 
 class OpenHashTable: public HashTableBase{
 public:
-	OpenHashTable(size_t size = 32):vec(size){}
+	OpenHashTable(size_t size = 32):vec(size,nullptr){}
 
 	// add element to the hash table
 	virtual void add(const element_type& e) override;
@@ -20,7 +20,7 @@ public:
 	virtual bool remove(const element_type& dt) override;
 
 private:
-	using vec_type = std::vector<element_type*>;
+	using vec_type = std::vector<ChainNode*>;
 	vec_type vec;
 	
 };
