@@ -20,7 +20,7 @@ public:
 	virtual bool find(const element_type::first_type& key) = 0;
 
 	// remove index from tree
-	virtual bool remove(const element_type& dt) = 0;
+	virtual bool remove(const element_type::first_type& key) = 0;
 
 // protected:
 	hash_type hf;

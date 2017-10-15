@@ -1,3 +1,9 @@
+///////////////////////////////
+//
+// author: Kenth Remon Crisolo
+// email: kcrisolo07@gmail.com
+//
+///////////////////////////////
 
 #include "OpenHashTable.h"
 
@@ -27,13 +33,12 @@ bool OpenHashTable::find(const element_type::first_type& key){
 	ChainNode* crawler = vec[index];
 
 	if(crawler != nullptr){
-		while(crawler->_next != nullptr){
+		if( crawler->_e.first == key) ret = true;
+		else while(crawler->_next != nullptr){
+			crawler = crawler->_next;
 			if(crawler->_e.first == key){
 				ret = true;
 				break;
-			}
-			else{
-				crawler = crawler->_next;
 			}
 		}
 	}
@@ -42,25 +47,32 @@ bool OpenHashTable::find(const element_type::first_type& key){
 }
 
 // remove index from tree
-bool OpenHashTable::remove(const element_type& dt){
+bool OpenHashTable::remove(const element_type::first_type& key){
 	bool ret = false;
-	auto& key = dt.first;
 	auto index = _hash(key)%vec.size();
 	ChainNode* crawler = vec[index];
 
 	if(crawler != nullptr){
-		while(crawler->_next != nullptr){
-			if(crawler->_e == dt){
-				crawler->_prev->_next = crawler->_next;
+		if(crawler->_e.first == key){
+			vec[index] = crawler->_next;
+			if(crawler->_next != nullptr){
+				crawler->_next->_prev = nullptr;
+			}
+			delete crawler;
+			ret = true;
+		}
+		else while(crawler->_next != nullptr){
+			crawler = crawler->_next;
+			if(crawler->_e.first == key){
+				if(crawler->_prev != nullptr){
+					crawler->_prev->_next = crawler->_next;
+				}
 				if(crawler->_next != nullptr){
 					crawler->_next->_prev = crawler->_prev;
 				}
 				delete crawler;
 				ret = true;
 				break;
-			}
-			else{
-				crawler = crawler->_next;
 			}
 		}
 	}

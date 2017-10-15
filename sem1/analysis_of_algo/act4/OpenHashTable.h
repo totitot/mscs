@@ -1,3 +1,9 @@
+///////////////////////////////
+//
+// author: Kenth Remon Crisolo
+// email: kcrisolo07@gmail.com
+//
+///////////////////////////////
 
 #ifndef OPENHASHTABLEBASE__H
 #define OPENHASHTABLEBASE__H
@@ -17,7 +23,7 @@ public:
 	virtual bool find(const element_type::first_type& key) override;
 
 	// remove index from tree
-	virtual bool remove(const element_type& dt) override;
+	virtual bool remove(const element_type::first_type& key) override;
 
 protected:
 	using vec_type = std::vector<ChainNode*>;
