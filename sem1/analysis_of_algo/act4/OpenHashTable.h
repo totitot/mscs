@@ -19,7 +19,7 @@ public:
 	// remove index from tree
 	virtual bool remove(const element_type& dt) override;
 
-private:
+protected:
 	using vec_type = std::vector<ChainNode*>;
 	vec_type vec;
 	

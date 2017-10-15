@@ -7,14 +7,14 @@
 
 class ChainNode{
 public:
-	ChainNode():_prev(nullptr),_next(nullptr){}
-	ChainNode(ChainNode&& C):e(std::move(C.e)),_prev(nullptr),_next(nullptr){}
 	using element_type = std::pair<std::string,int>;
+	ChainNode(const element_type& other):_e(other),_prev(nullptr),_next(nullptr){}
+	ChainNode(ChainNode&& C):_e(std::move(C._e)),_prev(nullptr),_next(nullptr){}
 
-private:
+public:
 	element_type _e;
-	element_type * _prev;
-	element_type * _next;
+	ChainNode * _prev;
+	ChainNode * _next;
 	
 };
 
